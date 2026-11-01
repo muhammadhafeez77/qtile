@@ -9,21 +9,9 @@ from libqtile import hook
 @hook.subscribe.startup_once
 def autostart():
      subprocess.Popen(['picom', '--config', os.path.expanduser('~/.config/picom/picom.conf')])
-     subprocess.Popen(['xset', 's', '190'])  # Timeout in seconds
+     subprocess.Popen(['xset', 's', '390'])  # Timeout in seconds
      subprocess.Popen(['xss-lock', '--', os.path.expanduser('~/.config/qtile/lock.sh')])
-def get_wifi():
-    # try:                                          # If you want SSID to show 
-   #     output = subprocess.check_output(
-   #         ["nmcli", "-t", "-f", "active,ssid", "dev", "wifi"],
-   #         text=True
-   #     )
-   #     for line in output.splitlines():
-   #         if line.startswith("yes:"):
-   #             return f"  {line.split(':')[1]}"
-   #     return "  No Wifi"
-   # except Exception:
-   #     return "  Error"
-
+def get_wifi(): 
      try:                                   # if you want wifi strength to show 
         output = subprocess.check_output(
             ["nmcli", "-t", "-f", "active,signal", "dev", "wifi"],
@@ -128,32 +116,40 @@ for vt in range(1, 8):
         )
     )
 
+## FONT BAR 
+groups = [
+    Group("1", label="" ),
+    Group("2", label="󰊯"),
+    Group("3", label="" ),
+    Group("4", label="" ),
+    Group("5", label="" ),
+    Group("6", label="" ),
+    Group("7", label="" ),
+    Group("8", label="󱘶" ),
+    Group("9", label="󰧮" ),]
+for g in groups:
+    keys.extend([
+        Key([mod], g.name, lazy.group[g.name].toscreen()),
+        Key([mod, "shift"], g.name, lazy.window.togroup(g.name, switch_group=True)),
+    ])
 
-groups = [Group(i) for i in "123456789"]
-#groups = [Group(i) for i in "󰊯󱘶󰧮"]
-#groups = [Group(i) for i in "" "" "󰊯" "" "" "" "" "󱘶" "󰧮"] 
-for i in groups:
-    keys.extend(
-        [
-           #  mod + group number = switch to group
-            Key(
-                [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc=f"Switch to group {i.name}",
-            ),
-            # mod + shift + group number = switch to & move focused window to group
-            # Key(
-            #     [mod, "shift"],
-            #     i.name,
-            #     lazy.window.togroup(i.name, switch_group=True),
-            #     desc=f"Switch to & move focused window to group {i.name}",
-            # ),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod + shift + group number = move focused window to group
-            Key([mod, "shift"], i.name, lazy.window.togroup(i.name),desc="move focused window to group {}".format(i.name)),
-        ]
-    )
+
+## NUMBER BAR 
+#groups = [Group(i) for i in "123456789"]
+#for i in groups:
+#    keys.extend(
+#        [
+#           #  mod + group number = switch to group
+#            Key(
+#                [mod],
+#                i.name,
+#                lazy.group[i.name].toscreen(),
+#                desc=f"Switch to group {i.name}",
+#            ),
+#         # # mod + shift + group number = move focused window to group
+#            Key([mod, "shift"], i.name, lazy.window.togroup(i.name),desc="move focused window to group {}".format(i.name)),
+#        ]
+#    )
 
 colors = [
     ["#44362F", "#44362F"],  # bg          (primary.background)
@@ -185,15 +181,15 @@ layouts = [
     layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    layout.MonadTall(**layout_theme),
-    # layout.MonadWide(),
+     layout.Bsp(),
+     layout.Matrix(),
+     layout.MonadTall(**layout_theme),
+     layout.MonadWide(),
     # layout.RatioTile(),
-    # layout.Tile(),
+     layout.Tile(),
      layout.TreeTab(**layout_theme),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+     layout.VerticalTile(),
+     layout.Zoomy(),
 ]
 
 widget_defaults = dict(
