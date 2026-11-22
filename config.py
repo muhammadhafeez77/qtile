@@ -78,7 +78,7 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    Key([mod, "shift"], "b", lazy.spawn("google-chrome"), desc = "Spawn Firefox"),
+    Key([mod, "shift"], "b", lazy.spawn("google-chrome"), desc = "Spawn Chrome"),
     Key([mod], "e", lazy.spawn("thunar"), desc = "Spawn Thunar"),
     Key([mod], "d", lazy.spawn("rofi -show drun -show-icons"), desc='Run Launcher'),
 
@@ -89,7 +89,7 @@ keys = [
     Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
     Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),    
     Key([], "XF86AudioRaiseVolume", 
-        lazy.spawn("bash -c 'vol=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP \"\\d+(?=%)\" |head -1); [ $vol -lt 150 ] && pactl set-sink-volume @DEFAULT_SINK@ +5%'")     ),
+        lazy.spawn("bash -c 'vol=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP \"\\d+(?=%)\" |head -1); [ $vol -lt 150 ] && pactl set-sink-volume @DEFAULT_SINK@ +5%'")),
 
     # Mic mute (check xkeysyms for exact name)
     Key([], "XF86AudioMicMute", lazy.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle")),
@@ -100,8 +100,6 @@ keys = [
     Key(["mod1"], "l", lazy.spawn("sh -c '~/.config/qtile/lock.sh'"),desc="Lock screen with horizontal password bar"),
     Key(["mod1", "control"], "l", lazy.spawn("sh -c '~/.config/qtile/lock.sh ; systemctl sleep' "),desc="Lock screen and put computer to sleep"),
 ]
-
-
 
 # Add key bindings to switch VTs in Wayland.
 # We can't check qtile.core.name in default config as it is loaded before qtile is started
@@ -118,15 +116,15 @@ for vt in range(1, 8):
 
 ## FONT BAR 
 groups = [
-    Group("1", label="" ),
+    Group("1", label=""),
     Group("2", label="󰊯"),
-    Group("3", label="" ),
-    Group("4", label="" ),
-    Group("5", label="" ),
-    Group("6", label="" ),
-    Group("7", label="" ),
-    Group("8", label="󱘶" ),
-    Group("9", label="󰧮" ),]
+    Group("3", label=""),
+    Group("4", label=""),
+    Group("5", label=""),
+    Group("6", label=""),
+    Group("7", label=""),
+    Group("8", label="󱘶"),
+    Group("9", label="󰧮"),]
 for g in groups:
     keys.extend([
         Key([mod], g.name, lazy.group[g.name].toscreen()),
@@ -193,7 +191,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="JetBrainsMono Nerd Font ",
+    font="JetBrainsMono Nerd Font",
     fontsize=16,
     padding=0,
     background=colors[0],
@@ -263,10 +261,10 @@ screens = [
                 ),
                 widget.GenPollText(
                     update_interval = 300,
-                    func = lambda: subprocess.check_output("printf $(uname -r)", shell=True, text=True),
+                    func = lambda: subprocess.check_output("printf $(uname -r)", shell=True, text=True),
                     foreground = colors[3],
                     padding = 8, 
-                    fmt = '{}',
+                    fmt = '  {}',
                 ),
                 sep,
                 widget.CPU(
@@ -317,7 +315,7 @@ screens = [
                     foreground=colors[6],           # pick a palette slot you like
                     padding=8,
                     update_interval=5,
-                    format='{percent:2.0%} {char}',       # e.g. "73% ⚡"
+                    format='{percent:2.0%} {char}',       # e.g. "69% ⚡"
                     fmt='Battery: {}',
                     charge_char='',               # shown while charging
                     discharge_char='',            # Nerd icon; use '-' if you prefer plain ascii
@@ -376,7 +374,7 @@ focus_on_window_activation = "smart"
 reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
+# focus, should we respect this or not? Maybe  :)
 auto_minimize = True
 
 # When using the Wayland backend, this can be used to configure input devices.
